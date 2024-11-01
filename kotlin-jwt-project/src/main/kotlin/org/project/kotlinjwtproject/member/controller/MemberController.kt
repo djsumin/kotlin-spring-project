@@ -1,5 +1,6 @@
 package org.project.kotlinjwtproject.member.controller
 
+import jakarta.validation.Valid
 import org.project.kotlinjwtproject.member.dto.MemberDtoRequest
 import org.project.kotlinjwtproject.member.service.MemberService
 import org.springframework.web.bind.annotation.PostMapping
@@ -16,7 +17,7 @@ class MemberController (
     * 회원가입
     */
     @PostMapping("/signup")
-    fun signUp(@RequestBody memberDtoRequest: MemberDtoRequest): String{
+    fun signUp(@RequestBody @Valid memberDtoRequest: MemberDtoRequest): String{
         return memberService.signUp(memberDtoRequest)
     }
 }
