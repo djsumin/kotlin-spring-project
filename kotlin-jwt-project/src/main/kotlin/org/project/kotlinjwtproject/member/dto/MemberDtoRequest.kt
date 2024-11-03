@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import org.project.kotlinjwtproject.common.annotation.ValidEnum
 import org.project.kotlinjwtproject.common.status.Gender
+import org.project.kotlinjwtproject.member.entity.Member
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -17,8 +18,10 @@ data class MemberDtoRequest (
     private val _loginId: String?,
 
     @field:NotBlank
-    @field:Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%^&*])[a-zA-Z0-9!@#\$%^&*]{8,20}\$",
-        message="영문, 숫자, 특수문자를 포함한 8~20자리로 입력해주세요.")
+    @field:Pattern(
+        regexp = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%^&*])[a-zA-Z0-9!@#\$%^&*]{8,20}\$",
+        message="영문, 숫자, 특수문자를 포함한 8~20자리로 입력해주세요."
+    )
     @JsonProperty("password")
     private val _password: String?,
 
@@ -61,4 +64,6 @@ data class MemberDtoRequest (
         LocalDate.parse(this, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
 
+    fun toEntity(): Member =
+        Member(id, loginId, password, name, birthDate, gender, email)
 }

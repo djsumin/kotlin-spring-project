@@ -1,6 +1,7 @@
 package org.project.kotlinjwtproject.member.service
 
 import jakarta.transaction.Transactional
+import org.project.kotlinjwtproject.common.exception.InvalidInputException
 import org.project.kotlinjwtproject.member.dto.MemberDtoRequest
 import org.project.kotlinjwtproject.member.entity.Member
 import org.project.kotlinjwtproject.member.repository.MemberRepository
@@ -18,18 +19,10 @@ class MemberService (
         //id 중복검사
         var member: Member? = memberRepository.findByLoginId(memberDtoRequest.loginId)
         if(member != null){
-            return "이미 등록된 ID 입니다."
+            throw InvalidInputException("loginId", "이미 등록된 id입니다.")
         }
 
-        member = Member(
-            null,
-            memberDtoRequest.loginId,
-            memberDtoRequest.password,
-            memberDtoRequest.name,
-            memberDtoRequest.birthDate,
-            memberDtoRequest.gender,
-            memberDtoRequest.email
-        )
+        member = memberDtoRequest.toEntity()
 
         memberRepository.save(member)
 
