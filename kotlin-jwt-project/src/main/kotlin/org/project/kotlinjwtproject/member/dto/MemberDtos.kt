@@ -10,7 +10,7 @@ import org.project.kotlinjwtproject.member.entity.Member
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-data class MemberDtoRequest (
+data class MemberDtos (
     val id: Long?,
 
     @field:NotBlank
@@ -66,4 +66,19 @@ data class MemberDtoRequest (
 
     fun toEntity(): Member =
         Member(id, loginId, password, name, birthDate, gender, email)
+}
+
+data class LoginDto (
+    @field:NotBlank
+    @JsonProperty("loginId")
+    private val _loginId: String?,
+
+    @field:NotBlank
+    @JsonProperty("password")
+    private val _password: String?,
+) {
+    val loginId: String
+        get() = _loginId!!
+    val password: String
+        get() = _password!!
 }
